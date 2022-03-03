@@ -199,10 +199,37 @@ def loadTestInputData(file_path, curr_frame, frame_num):
     m = m * 1000
     m[0] = 1.0
     
+    ## Original code
+    # dynamic_f.append(u)
+    # reference_f.append(x)
+    # stiffness.append(k)
+    # mass.append(m)
+
+
+
+    # Test code written by Kyle -----------
+    # length of 'k' and 'm' is 1106
+
+    # Altering stiffness
+
+    temp = []
+    for i in k:
+        temp.append(0.01)
+    temp = np.array(temp)
+    temp = np.expand_dims(temp, axis=1)
+
     dynamic_f.append(u)
     reference_f.append(x)
-    stiffness.append(k)
+    stiffness.append(temp)
     mass.append(m)
+
+    ## Writing to text file
+    # file = open("test.txt", "w")
+    # for row in k:
+    #     np.savetxt(file, row)
+    # content = str(stiffness)
+    # file.close()
+    #--------------------------------------
 
     constraint = torch.from_numpy(np.array(constraint)).type(torch.LongTensor)
     dynamic_f = torch.from_numpy(np.array(dynamic_f)).float()
